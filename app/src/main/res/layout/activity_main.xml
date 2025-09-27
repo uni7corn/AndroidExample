@@ -214,6 +214,13 @@
             android:layout_marginTop="12dp"
             android:text="动态篡改 so 函数返回值" />
 
+        <Button
+            android:id="@+id/button_check_signature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="签名校验" />
+
     </LinearLayout>
 
 </ScrollView>

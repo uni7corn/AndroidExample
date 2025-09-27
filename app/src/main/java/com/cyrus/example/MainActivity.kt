@@ -33,6 +33,7 @@ import com.cyrus.example.unicorn.UnicornActivity
 import com.cyrus.example.unidbg.UnidbgActivity
 import com.cyrus.example.vmp.VMPActivity
 import com.cyrus.example.retrofit.RetrofitActivity
+import com.cyrus.example.signature.SignatureActivity
 import com.cyrus.example.sohooker.SoHookerActivity
 
 
@@ -294,6 +295,16 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(
                 this@MainActivity,
                 SoHookerActivity::class.java
+            )
+            startActivity(intent)
+        }
+
+
+        // 签名校验
+        findViewById<Button>(R.id.button_check_signature).setOnClickListener {
+            val intent = Intent(
+                this@MainActivity,
+                SignatureActivity::class.java
             )
             startActivity(intent)
         }

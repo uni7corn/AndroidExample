@@ -49,6 +49,13 @@ android {
     buildTypes {
         debug {
             signingConfig = signingConfigs.getByName("cyrus")
+
+            // 注入期望签名指纹
+            buildConfigField(
+                "String",
+                "EXPECTED_SIGNATURE",
+                "\"4ODG9MBS1sIB91m3GO2PQB2VzhBAYl1xjMajotXMiRc=\""
+            )
         }
         release {
             signingConfig = signingConfigs.getByName("cyrus")
@@ -56,6 +63,13 @@ android {
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
+            )
+
+            // 注入期望签名指纹
+            buildConfigField(
+                "String",
+                "EXPECTED_SIGNATURE",
+                "\"4ODG9MBS1sIB91m3GO2PQB2VzhBAYl1xjMajotXMiRc=\""
             )
         }
     }
@@ -69,6 +83,7 @@ android {
     buildFeatures {
         compose = true
         prefab = true
+        buildConfig = true
     }
     ndkVersion = "27.1.12297006"
 }
