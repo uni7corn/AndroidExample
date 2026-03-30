@@ -221,6 +221,15 @@
             android:layout_marginTop="12dp"
             android:text="签名校验" />
 
+
+        <Button
+            android:id="@+id/button_permission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="权限管理" />
+
+
     </LinearLayout>
 
 </ScrollView>

@@ -24,17 +24,18 @@ import com.cyrus.example.jniexample.JNIExampleActivity
 import com.cyrus.example.md5.MD5Activity
 import com.cyrus.example.okhttp.OkHttpActivity
 import com.cyrus.example.ollvm.OLLVMActivity
+import com.cyrus.example.permission.PermissionActivity
+import com.cyrus.example.retrofit.RetrofitActivity
 import com.cyrus.example.root.RootActivity
 import com.cyrus.example.sha1.SHA1Activity
 import com.cyrus.example.shell.DexExtractActivity
+import com.cyrus.example.signature.SignatureActivity
 import com.cyrus.example.so_unpack.SoUnpackActivity
+import com.cyrus.example.sohooker.SoHookerActivity
 import com.cyrus.example.syscall.SyscallActivity
 import com.cyrus.example.unicorn.UnicornActivity
 import com.cyrus.example.unidbg.UnidbgActivity
 import com.cyrus.example.vmp.VMPActivity
-import com.cyrus.example.retrofit.RetrofitActivity
-import com.cyrus.example.signature.SignatureActivity
-import com.cyrus.example.sohooker.SoHookerActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -305,6 +306,16 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(
                 this@MainActivity,
                 SignatureActivity::class.java
+            )
+            startActivity(intent)
+        }
+
+
+        // 权限设置
+        findViewById<Button>(R.id.button_permission).setOnClickListener {
+            val intent = Intent(
+                this@MainActivity,
+                PermissionActivity::class.java
             )
             startActivity(intent)
         }
