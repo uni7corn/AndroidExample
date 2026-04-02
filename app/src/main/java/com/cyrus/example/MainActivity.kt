@@ -17,6 +17,7 @@ import com.cyrus.example.crc32.CRC32Activity
 import com.cyrus.example.device_fingerprint.DeviceFingerprintActivity
 import com.cyrus.example.fart.FartActivity
 import com.cyrus.example.frida_disassemble.FridaDisassembleActivity
+import com.cyrus.example.fridadetector.FridaDetectorActivity
 import com.cyrus.example.hmac.HMACActivity
 import com.cyrus.example.hook.HookActivity
 import com.cyrus.example.hotfix.HotFixActivity
@@ -316,6 +317,16 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(
                 this@MainActivity,
                 PermissionActivity::class.java
+            )
+            startActivity(intent)
+        }
+
+
+        // Frida检测
+        findViewById<Button>(R.id.button_frida_detector).setOnClickListener {
+            val intent = Intent(
+                this@MainActivity,
+                FridaDetectorActivity::class.java
             )
             startActivity(intent)
         }

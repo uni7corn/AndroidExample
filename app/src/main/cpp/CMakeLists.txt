@@ -453,3 +453,19 @@ target_link_libraries(
         shadowhook::shadowhook
 )
 
+## FridaDetector ##########################################################################################
+
+add_library(
+        fridadetector
+        SHARED
+        fridadetector/port_check.cpp
+        fridadetector/process_check.cpp
+        fridadetector/debug_check.cpp
+        fridadetector/frida_port_check.cpp
+)
+
+target_link_libraries(
+        fridadetector
+        # 链接 log 库
+        ${log-lib}
+)

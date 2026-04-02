@@ -99,6 +99,8 @@ dependencies {
     implementation(libs.okhttp)
     // OkHttp 日志拦截器（可选，用于调试）
     implementation(libs.logging.interceptor)
+    // ViewModel
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // ViewPager + Tab
     implementation(libs.accompanist.pager) // 或最新版

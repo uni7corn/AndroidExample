@@ -230,6 +230,15 @@
             android:text="权限管理" />
 
 
+
+        <Button
+            android:id="@+id/button_frida_detector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Frida检测" />
+
+
     </LinearLayout>
 
 </ScrollView>
