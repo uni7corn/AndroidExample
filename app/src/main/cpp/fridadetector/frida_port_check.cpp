@@ -25,7 +25,7 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *) {
             "com/cyrus/example/fridadetector/core/checks/FridaPortCheck"
     );
 
-    // ⚠️ 转成全局引用
+    // 转成全局引用
     g_cls = (jclass) env->NewGlobalRef(local);
     env->DeleteLocalRef(local);
 
@@ -59,12 +59,14 @@ void notify_java(int port, const char *msg) {
     }
 }
 
+// 设置 socket 为非阻塞模式（用于配合 select 实现超时控制）
 static int set_nonblock(int fd) {
     int flags = fcntl(fd, F_GETFL, 0);
     return fcntl(fd, F_SETFL, flags | O_NONBLOCK);
 }
 
-// WebSocket 握手请求
+// ===== WebSocket 握手请求（模拟 Frida 客户端特征）=====
+// Frida 16+ 使用 WebSocket + JSON RPC 通信
 static const char *ws_req =
         "GET /ws HTTP/1.1\r\n"
         "Host: 127.0.0.1\r\n"
@@ -75,40 +77,44 @@ static const char *ws_req =
         "User-Agent: Frida/16.7.19\r\n"
         "\r\n";
 
-// 线程函数
+// ===== 端口扫描线程 =====
 void *scan_ports_thread(void *arg) {
 
     struct sockaddr_in sa{};
     sa.sin_family = AF_INET;
-    inet_aton("127.0.0.1", &sa.sin_addr);
+    inet_aton("127.0.0.1", &sa.sin_addr); // 扫描本地回环（frida-server 常驻）
 
     char recv_buf[1024];
 
+    // 遍历全部 TCP 端口
     for (int port = 1; port <= 65535; port++) {
 
         int sock = socket(AF_INET, SOCK_STREAM, 0);
         if (sock < 0) continue;
 
-        set_nonblock(sock);
+        set_nonblock(sock); // 非阻塞 connect
 
         sa.sin_port = htons(port);
 
         bool is_frida = false;
 
         do {
+            // 发起连接（非阻塞）
             connect(sock, (struct sockaddr *) &sa, sizeof(sa));
 
+            // 使用 select 等待连接完成（写事件）
             fd_set wfds;
             FD_ZERO(&wfds);
             FD_SET(sock, &wfds);
 
             struct timeval tv{};
             tv.tv_sec = 0;
-            tv.tv_usec = 100 * 1000;
+            tv.tv_usec = 100 * 1000; // 100ms 超时
 
             int sel = select(sock + 1, NULL, &wfds, NULL, &tv);
             if (!(sel > 0 && FD_ISSET(sock, &wfds))) break;
 
+            // 检查 connect 结果
             int err = 0;
             socklen_t len = sizeof(err);
             getsockopt(sock, SOL_SOCKET, SO_ERROR, &err, &len);
@@ -117,10 +123,10 @@ void *scan_ports_thread(void *arg) {
 
             LOGD("[+] Port %d CONNECTED", port);
 
-            // ===== WebSocket 握手 =====
+            // ===== 发送 WebSocket 握手 =====
             send(sock, ws_req, strlen(ws_req), 0);
 
-            usleep(100 * 1000);
+            usleep(100 * 1000); // 等待响应
 
             memset(recv_buf, 0, sizeof(recv_buf));
             int r = recv(sock, recv_buf, sizeof(recv_buf) - 1, MSG_DONTWAIT);
@@ -132,7 +138,8 @@ void *scan_ports_thread(void *arg) {
 
             LOGD("[+] Port %d RESPONSE (%d bytes):\n%s", port, r, recv_buf);
 
-            // ===== 判断 WebSocket =====
+            // ===== 判断是否为 WebSocket 服务 =====
+            // 关键特征：HTTP 101 + Upgrade + Sec-WebSocket-Accept
             if (strstr(recv_buf, "HTTP/1.1 101") &&
                 strstr(recv_buf, "Upgrade: websocket") &&
                 strstr(recv_buf, "Connection: Upgrade") &&
@@ -140,16 +147,17 @@ void *scan_ports_thread(void *arg) {
 
                 LOGD("[!!!] WebSocket detected on port %d", port);
 
+                // 命中 WebSocket（进一步可结合特征判断是否为 Frida）
                 is_frida = true;
                 break;
             }
 
         } while (false);
 
-        // ===== 释放资源 =====
+        // 释放 socket
         close(sock);
 
-        // ===== 命中后退出 =====
+        // 命中后直接结束扫描
         if (is_frida) {
             notify_java(port, "FRIDA WEBSOCKET DETECTED");
             return nullptr;
@@ -162,6 +170,7 @@ void *scan_ports_thread(void *arg) {
     return nullptr;
 }
 
+// JNI 入口：启动扫描线程（避免阻塞主线程）
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_cyrus_example_fridadetector_core_checks_FridaPortCheck_nativeStartScan(
@@ -179,4 +188,3 @@ Java_com_cyrus_example_fridadetector_core_checks_FridaPortCheck_nativeStartScan(
         LOGD("[!] Failed to create thread");
     }
 }
-
