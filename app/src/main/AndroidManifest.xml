@@ -16,42 +16,42 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AndroidExample"
+        android:theme="@style/Theme.CyReverse"
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode"
         tools:targetApi="31">
         <activity
             android:name=".webview.WebShellActivity"
             android:exported="false"
-            android:theme="@style/Theme.AndroidExample" />
+            android:theme="@style/Theme.CyReverse" />
         <activity
             android:name=".fridadetector.FridaDetectorActivity"
             android:exported="false"
-            android:theme="@style/Theme.AndroidExample" />
+            android:theme="@style/Theme.CyReverse" />
         <activity
             android:name=".permission.PermissionActivity"
             android:exported="false"
-            android:theme="@style/Theme.AndroidExample" />
+            android:theme="@style/Theme.CyReverse" />
         <activity
             android:name=".signature.SignatureActivity"
             android:exported="false"
-            android:theme="@style/Theme.AndroidExample" />
+            android:theme="@style/Theme.CyReverse" />
         <activity
             android:name=".sohooker.SoHookerActivity"
             android:exported="false"
-            android:theme="@style/Theme.AndroidExample" />
+            android:theme="@style/Theme.CyReverse" />
         <activity
             android:name=".retrofit.RetrofitActivity"
             android:exported="false"
-            android:theme="@style/Theme.AndroidExample" />
+            android:theme="@style/Theme.CyReverse" />
         <activity
             android:name=".antisniff.AntiSniffActivity"
             android:exported="false"
-            android:theme="@style/Theme.AndroidExample" />
+            android:theme="@style/Theme.CyReverse" />
         <activity
             android:name=".okhttp.OkHttpActivity"
             android:exported="false"
-            android:theme="@style/Theme.AndroidExample" />
+            android:theme="@style/Theme.CyReverse" />
         <activity
             android:name=".device_fingerprint.DeviceFingerprintActivity"
             android:exported="false" />
@@ -124,7 +124,7 @@
         <activity
             android:name=".jnibridge.JNIBridgeActivity"
             android:exported="false"
-            android:theme="@style/Theme.AndroidExample" />
+            android:theme="@style/Theme.CyReverse" />
         <activity
             android:name=".antidebug.AntiDebugActivity"
             android:exported="false"
@@ -132,7 +132,7 @@
         <activity
             android:name=".openssl.OpenSSLActivity"
             android:exported="false"
-            android:theme="@style/Theme.AndroidExample" />
+            android:theme="@style/Theme.CyReverse" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.AndroidExample" parent="Theme.AppCompat.NoActionBar">
+    <style name="Theme.CyReverse" parent="Theme.AppCompat.NoActionBar">
         <!-- 其他主题属性 -->
         <item name="android:buttonStyle">@style/ButtonStyle</item>
     </style>

@@ -23,7 +23,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AndroidExample"
+rootProject.name = "CyReverse"
 include(":app")
 include(":vmp")
 include(":plugin")
